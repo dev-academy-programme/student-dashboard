@@ -1,8 +1,4 @@
-import pkg from '@prisma/client'
-
-import * as db from '../../prisma/db'
-import { createPivotTable, flip, standardDeviation } from '../utils'
-const { PrismaClient } = pkg
+import * as utils from './utils'
 
 interface CommitData {
   username: string
@@ -18,35 +14,14 @@ export interface StudentData {
   Commits: CommitData[]
 }
 
-export async function load() {
-  const prisma = new PrismaClient()
-  const commits = await db.getCommits(prisma)
-
-  const students = flip(commits)
-
-  const studentSummary = getStudentSummary(students)
-  let pivotReposStudents = createPivotTable(students, 'repo_name')
-  let pivotDaysStudents = createPivotTable(students, 'created_on')
-  const uniqueNames = students.map((student) => student.name)
-
-  return {
-    uniqueNames,
-    streamed: {
-      studentSummary,
-      pivotReposStudents,
-      pivotDaysStudents
-    }
-  }
-}
-
-function getStudentSummary(students: StudentData[]) {
+export function getStudentSummary(students: StudentData[]) {
   return students.map((student) => {
     const totalCommits = student.Commits.length
     const lastCommit = student.Commits.sort(
-      (a, b) => Number(b.created_on) - Number(a.created_on)
+      (a, b) => Number(b.created_on) - Number(a.created_on),
     ).find((id) => id)
     const commitDates = student.Commits.flat().map((commit) =>
-      Number(commit.created_on)
+      Number(commit.created_on),
     )
 
     let commitGaps = []
@@ -56,7 +31,7 @@ function getStudentSummary(students: StudentData[]) {
     }
 
     let commitCount = commitDates.length
-    let consistencyScore = standardDeviation(commitGaps)
+    let consistencyScore = utils.standardDeviation(commitGaps)
 
     let progressScore =
       consistencyScore !== 0 ? commitCount / consistencyScore : commitCount
@@ -67,7 +42,7 @@ function getStudentSummary(students: StudentData[]) {
       totalCommits,
       lastCommitDate: lastCommit?.created_on,
       progressScore,
-      lastRepo: lastCommit?.repo_name
+      lastRepo: lastCommit?.repo_name,
     }
   })
 }

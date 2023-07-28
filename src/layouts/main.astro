@@ -1,0 +1,15 @@
+---
+const { title } = Astro.props
+---
+
+<html>
+  <header>
+    <title>{title}</title>
+    <link rel="stylesheet" href="/styles/output.css">
+  </header>
+  <body data-sveltekit-preload-data="hover">
+    <div class="bg-slate-900 text-slate-50 min-h-screen min-w-fit">
+      <slot />
+    </div>
+  </body>
+</html>

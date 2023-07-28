@@ -1,18 +1,39 @@
 ---
-// Welcome to Astro! Everything between these triple-dash code fences
-// is your "component frontmatter". It never runs in the browser.
-console.log('This runs in your terminal, not the browser!');
+import pkg from '@prisma/client'
+
+import MainLayout from '../layouts/main.astro'
+import ListCommitsByDay from '../components/ListCommitsByDay.astro'
+import { getStudentSummary } from '../github'
+import * as db from '../../prisma/db'
+import { createPivotTable, flip  } from '../utils'
+
+const { PrismaClient } = pkg
+
+
+ const prisma = new PrismaClient()
+  const commits = await db.getCommits(prisma)
+
+  const students = flip(commits)
+
+  const studentSummary = getStudentSummary(students)
+  let pivotReposStudents = createPivotTable(students, 'repo_name')
+  let pivotDaysStudents = createPivotTable(students, 'created_on')
+  const uniqueNames = students.map((student) => student.name)
+
+  //  {
+  //   uniqueNames,
+  //   streamed: {
+  //     studentSummary,
+  //     pivotReposStudents,
+  //     pivotDaysStudents,
+  //   },
+  // }
+
 ---
-<!-- Below is your "component template." It's just HTML, but with
-     some magic sprinkled in to help you build great templates. -->
-<html>
-  <header>
-    <title>Hello World</title>
-    <link rel="stylesheet" href="/styles/output.css">
-  </header>
-  <body data-sveltekit-preload-data="hover">
-    <div class="bg-slate-900 text-slate-50 min-h-screen min-w-fit">
-      Hello World
-    </div>
-  </body>
-</html>
+
+<MainLayout title={import.meta.env.GITHUB_ORG}>
+ <div>
+  {uniqueNames.map(name => <p>{name}</p>)}
+ </div>
+ <ListCommitsByDay studentNames={uniqueNames} pivotTable={pivotDaysStudents} />
+</MainLayout>

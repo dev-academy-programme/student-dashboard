@@ -30,6 +30,7 @@
     "@astrojs/mdx": "^0.19.7",
     "@astrojs/rss": "^2.4.3",
     "@astrojs/sitemap": "^2.0.1",
+    "@astrojs/ts-plugin": "^1.1.1",
     "@prisma/client": "4.16.2",
     "astro": "^2.9.4",
     "zod": "^3.21.4"
