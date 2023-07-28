@@ -4,6 +4,7 @@ import pkg from '@prisma/client'
 import MainLayout from '../layouts/main.astro'
 import ListCommitsByDay from '../components/ListCommitsByDay.astro'
 import ListStudents from '../components/ListStudents.astro'
+import PivotCommits from '../components/PivotCommits.astro'
 import { getStudentSummary } from '../github'
 import * as db from '../../prisma/db'
 import { createPivotTable, flip  } from '../utils'
@@ -34,7 +35,18 @@ const { PrismaClient } = pkg
 
 <MainLayout title={import.meta.env.GITHUB_ORG}>
   <div class="flex flex-col gap-10 w-fit items-center justify-center mx-auto">
+   <h2 class="self-start text-lg font-medium text-slate-400">
+      A list of all students in the cohort
+    </h2>
+  
    <ListStudents  studentSummary={studentSummary}  />
+  <h2 class="self-start text-lg font-medium text-slate-400">
+      Total commits for each student for all challenges
+    </h2>
+  <PivotCommits studentNames={uniqueNames} pivotTable={pivotReposStudents} />
+   <h2 class="self-start text-lg font-medium text-slate-400">
+      Total commits for each student for each day
+    </h2>
    <ListCommitsByDay studentNames={uniqueNames} pivotTable={pivotDaysStudents} />
   </div>
 </MainLayout>
