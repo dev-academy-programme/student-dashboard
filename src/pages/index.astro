@@ -11,26 +11,15 @@ import { createPivotTable, flip  } from '../utils'
 
 const { PrismaClient } = pkg
 
+const prisma = new PrismaClient()
+const commits = await db.getCommits(prisma)
 
- const prisma = new PrismaClient()
-  const commits = await db.getCommits(prisma)
+const students = flip(commits)
 
-  const students = flip(commits)
-
-  const studentSummary = getStudentSummary(students)
-  let pivotReposStudents = createPivotTable(students, 'repo_name')
-  let pivotDaysStudents = createPivotTable(students, 'created_on')
-  const uniqueNames = students.map((student) => student.name)
-
-  //  {
-  //   uniqueNames,
-  //   streamed: {
-  //     studentSummary,
-  //     pivotReposStudents,
-  //     pivotDaysStudents,
-  //   },
-  // }
-
+const studentSummary = getStudentSummary(students)
+let pivotReposStudents = createPivotTable(students, 'repo_name')
+let pivotDaysStudents = createPivotTable(students, 'created_on')
+const uniqueNames = students.map((student) => student.name)
 ---
 
 <MainLayout title={import.meta.env.GITHUB_ORG}>
