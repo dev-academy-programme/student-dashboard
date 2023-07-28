@@ -5,9 +5,7 @@
   "scripts": {
     "astro": "astro",
     "start": "astro dev",
-    "dev": "run-p dev:*",
-    "dev:astro": "astro dev",
-    "dev:css": "tailwind -i ./src/input.css -o ./public/output.css --watch",
+    "dev": "astro dev",
     "preview": "astro preview",
     "build": "run-s build:*",
     "build:astro": "astro build",
@@ -30,6 +28,7 @@
     "@astrojs/mdx": "^0.19.7",
     "@astrojs/rss": "^2.4.3",
     "@astrojs/sitemap": "^2.0.1",
+    "@astrojs/tailwind": "^4.0.0",
     "@astrojs/ts-plugin": "^1.1.1",
     "@prisma/client": "4.16.2",
     "astro": "^2.9.4",
