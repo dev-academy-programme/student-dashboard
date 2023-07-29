@@ -16,11 +16,29 @@ const commits = await db.getCommits(prisma)
 
 const students = flip(commits)
 
+const sort = Astro.url.searchParams.get('sort')
+
 const studentSummary = getStudentSummary(students)
+if (sort === 'progress') {
+  studentSummary.sort((a, b) => b.progressScore - a.progressScore)
+} else if (sort === 'name') {
+  studentSummary.sort((a, b) => a.name.localeCompare(b.name))
+}
+else if (sort === 'commits') {
+  studentSummary.sort((a, b) => a.totalCommits - b.totalCommits)
+}
+else if (sort === 'repo') {
+  studentSummary.sort((a, b) => a.lastRepo.localeCompare(b.lastRepo))
+}
+else if (sort === 'date') {
+  studentSummary.sort((a, b) => a.lastCommitDate - b.lastCommitDate)
+}
+
 let pivotReposStudents = createPivotTable(students, 'repo_name')
 let pivotDaysStudents = createPivotTable(students, 'created_on')
 const uniqueNames = students.map((student) => student.name)
 ---
+
 
 <MainLayout title={import.meta.env.GITHUB_ORG}>
   <div class="flex flex-col gap-10 w-fit items-center justify-center mx-auto">
@@ -39,3 +57,4 @@ const uniqueNames = students.map((student) => student.name)
    <ListCommitsByDay studentNames={uniqueNames} pivotTable={pivotDaysStudents} />
   </div>
 </MainLayout>
+

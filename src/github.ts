@@ -19,7 +19,8 @@ export function getStudentSummary(students: StudentData[]) {
     const totalCommits = student.Commits.length
     const lastCommit = student.Commits.sort(
       (a, b) => Number(b.created_on) - Number(a.created_on),
-    ).find((id) => id)
+    )
+
     const commitDates = student.Commits.flat().map((commit) =>
       Number(commit.created_on),
     )
@@ -40,9 +41,9 @@ export function getStudentSummary(students: StudentData[]) {
       name: student.name,
       username: student.username,
       totalCommits,
-      lastCommitDate: lastCommit?.created_on,
+      lastCommitDate: lastCommit[0].created_on,
       progressScore,
-      lastRepo: lastCommit?.repo_name,
+      lastRepo: lastCommit[0].repo_name,
     }
   })
 }
