@@ -1,7 +1,6 @@
----
 import pkg from '@prisma/client'
 
-import MainLayout from '../layouts/main.astro'
+import MainLayout from '../layouts/main'
 import ListCommitsByDay from '../components/ListCommitsByDay.astro'
 import ListStudents from '../components/ListStudents.astro'
 import PivotCommits from '../components/PivotCommits.astro'
@@ -11,12 +10,16 @@ import { createPivotTable, flip  } from '../utils'
 
 const { PrismaClient } = pkg
 
+interface Props {
+  sort: string
+}
+
+function Index({ sort}: Props) {
 const prisma = new PrismaClient()
 const commits = await db.getCommits(prisma)
 
 const students = flip(commits)
 
-const sort = Astro.url.searchParams.get('sort')
 
 const studentSummary = getStudentSummary(students)
 if (sort === 'progress') {
@@ -37,7 +40,6 @@ else if (sort === 'date') {
 let pivotReposStudents = createPivotTable(students, 'repo_name')
 let pivotDaysStudents = createPivotTable(students, 'created_on')
 const uniqueNames = students.map((student) => student.name)
----
 
 
 <MainLayout title={import.meta.env.GITHUB_ORG}>
@@ -57,4 +59,4 @@ const uniqueNames = students.map((student) => student.name)
    <ListCommitsByDay studentNames={uniqueNames} pivotTable={pivotDaysStudents} />
   </div>
 </MainLayout>
-
+}
