@@ -1,8 +1,9 @@
 interface Props {
   title: string
+  children: React.ReactNode
 }
 
-function Layout({ title }: Props) {
+function Layout({ title, children }: Props) {
   return (
     <html>
       <header>
@@ -16,7 +17,7 @@ function Layout({ title }: Props) {
       </header>
       <body hx-boost="true">
         <div className="bg-slate-900 text-slate-50 min-h-screen min-w-fit">
-          <slot />
+          {children}
         </div>
       </body>
     </html>
