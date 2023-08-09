@@ -8,7 +8,7 @@
     "start": "node src/index.js",
     "dev": "run-p dev:*",
     "dev:server": "tsx watch src/index.ts",
-    "dev:css": "tailwind -i ./src/styles/input.css -o ./public/output.css",
+    "dev:css": "tailwind -i ./src/styles/input.css -o ./public/output.css --watch",
     "build": "run-s build:*",
     "build:astro": "tsc src/index.tsx --outDir dist",
     "build:prisma": "prisma generate",
