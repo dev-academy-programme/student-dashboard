@@ -1,7 +1,7 @@
 import * as Path from 'node:path/posix'
 import * as URL from 'node:url'
 import express from 'express'
-import commitRoutes from './routes/commitRoutes.js'
+import commitRoutes from './routes/commits.ts'
 
 const server = express()
 export default server
