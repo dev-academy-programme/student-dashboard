@@ -5,6 +5,7 @@ import express from 'express'
 import { PrismaClient } from '@prisma/client'
 
 import Index from './pages/index.tsx'
+import Layout from './layouts/main.tsx'
 import commitRoutes from './routes/commits.ts'
 import * as db from '../prisma/db.ts'
 import { createPivotTable, flip } from './utils.ts'
@@ -16,7 +17,7 @@ export default server
 const __dirname = Path.dirname(URL.fileURLToPath(import.meta.url))
 
 // setup public folder
-export const publicFolder = Path.join(__dirname, '../public')
+const publicFolder = Path.join(__dirname, '../public')
 server.use(express.static(publicFolder))
 
 server.use(express.json())
@@ -50,13 +51,15 @@ server.get('/', async (req, res) => {
 
   res.send(
     renderToStaticMarkup(
-      <Index
-        sort={sort}
-        uniqueNames={uniqueNames}
-        studentSummary={studentSummary}
-        pivotReposStudents={pivotReposStudents}
-        pivotDaysStudents={pivotDaysStudents}
-      />,
+      <Layout title="Hello World!">
+        <Index
+          sort={sort}
+          uniqueNames={uniqueNames}
+          studentSummary={studentSummary}
+          pivotReposStudents={pivotReposStudents}
+          pivotDaysStudents={pivotDaysStudents}
+        />
+      </Layout>,
     ),
   )
 })

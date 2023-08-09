@@ -15,10 +15,8 @@ function Layout({ title, children }: Props) {
           crossOrigin="anonymous"
         ></script>
       </header>
-      <body hx-boost="true">
-        <div className="bg-slate-900 text-slate-50 min-h-screen min-w-fit">
-          {children}
-        </div>
+      <body hx-boost="true" className="text-slate-100">
+        <div className="bg-slate-900 min-h-screen min-w-fit">{children}</div>
       </body>
     </html>
   )
