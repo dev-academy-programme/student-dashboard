@@ -3,40 +3,23 @@ import pkg from '@prisma/client'
 import ListCommitsByDay from '../components/ListCommitsByDay.tsx'
 import ListStudents from '../components/ListStudents.tsx'
 import PivotCommits from '../components/PivotCommits.tsx'
-import { getStudentSummary } from '../github.ts'
-import * as db from '../../prisma/db.ts'
-import { createPivotTable, flip } from '../utils.ts'
 import Layout from '../layouts/main.tsx'
-
-const { PrismaClient } = pkg
+import { StudentSummary } from '../github.ts'
 
 interface Props {
   sort: string
+  studentSummary: StudentSummary[]
+  pivotReposStudents: { [key: string]: { [key: string]: number } }
+  pivotDaysStudents: { [key: string]: { [key: string]: number } }
+  uniqueNames: string[]
 }
 
-async function Index({ sort }: Props) {
-  const prisma = new PrismaClient()
-  const commits = await db.getCommits(prisma)
-
-  const students = flip(commits)
-
-  const studentSummary = getStudentSummary(students)
-  if (sort === 'progress') {
-    studentSummary.sort((a, b) => b.progressScore - a.progressScore)
-  } else if (sort === 'name') {
-    studentSummary.sort((a, b) => a.name.localeCompare(b.name))
-  } else if (sort === 'commits') {
-    studentSummary.sort((a, b) => a.totalCommits - b.totalCommits)
-  } else if (sort === 'repo') {
-    studentSummary.sort((a, b) => a.lastRepo.localeCompare(b.lastRepo))
-  } else if (sort === 'date') {
-    studentSummary.sort((a, b) => a.lastCommitDate - b.lastCommitDate)
-  }
-
-  let pivotReposStudents = createPivotTable(students, 'repo_name')
-  let pivotDaysStudents = createPivotTable(students, 'created_on')
-  const uniqueNames = students.map((student) => student.name)
-
+function Index({
+  uniqueNames,
+  studentSummary,
+  pivotReposStudents,
+  pivotDaysStudents,
+}: Props) {
   return (
     <Layout title={process.env.GITHUB_ORG || ''}>
       <div className="flex flex-col gap-10 w-fit items-center justify-center mx-auto">

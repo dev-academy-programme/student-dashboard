@@ -39,7 +39,7 @@ function StudentsSummaryRow({ data }: Props) {
   return (
     <tbody id="body-students">
       {data.map((student) => (
-        <tr>
+        <tr key={student.name}>
           <td
             className="text-right pr-4"
             title={mediumTime.format(student.lastCommitDate)}
