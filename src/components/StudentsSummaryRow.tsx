@@ -1,9 +1,7 @@
-import { StudentData, getStudentSummary } from '../github'
-
-type SummaryData = ReturnType<typeof getStudentSummary>
+import { StudentSummary } from '../github.ts'
 
 interface Props {
-  data: SummaryData
+  data: StudentSummary[]
 }
 
 function StudentsSummaryRow({ data }: Props) {

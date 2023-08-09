@@ -44,7 +44,7 @@ async function Index({ sort }: Props) {
           A list of all students in the cohort
         </h2>
 
-        <ListStudents studentSummary={studentSummary} />
+        <ListStudents data={studentSummary} />
         <h2 className="self-start text-lg font-medium text-slate-400">
           Total commits for each student for all challenges
         </h2>

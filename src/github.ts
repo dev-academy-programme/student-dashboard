@@ -14,6 +14,8 @@ export interface StudentData {
   Commits: CommitData[]
 }
 
+export type StudentSummary = ReturnType<typeof getStudentSummary>[0]
+
 export function getStudentSummary(students: StudentData[]) {
   return students.map((student) => {
     const totalCommits = student.Commits.length

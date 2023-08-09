@@ -1,8 +1,8 @@
-import { StudentData } from '../github'
-import StudentsSummaryRow from './StudentsSummaryRow'
+import { StudentSummary } from '../github.ts'
+import StudentsSummaryRow from './StudentsSummaryRow.tsx'
 
 interface Props {
-  data: any
+  data: StudentSummary[]
 }
 
 function ListStudents({ data }: Props) {
