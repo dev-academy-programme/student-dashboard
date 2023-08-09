@@ -3,6 +3,7 @@ import { PrismaClient } from '@prisma/client'
 import * as z from 'zod'
 
 const router = express.Router()
+export default router
 
 const schema = z.object({
   ref: z.string(),
