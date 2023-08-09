@@ -1,12 +1,12 @@
 import pkg from '@prisma/client'
 
-import ListCommitsByDay from '../components/ListCommitsByDay'
-import ListStudents from '../components/ListStudents'
-import PivotCommits from '../components/PivotCommits'
-import { getStudentSummary } from '../github'
-import * as db from '../../prisma/db'
-import { createPivotTable, flip } from '../utils'
-import Layout from '../layouts/main'
+import ListCommitsByDay from '../components/ListCommitsByDay.tsx'
+import ListStudents from '../components/ListStudents.tsx'
+import PivotCommits from '../components/PivotCommits.tsx'
+import { getStudentSummary } from '../github.ts'
+import * as db from '../../prisma/db.ts'
+import { createPivotTable, flip } from '../utils.ts'
+import Layout from '../layouts/main.tsx'
 
 const { PrismaClient } = pkg
 
@@ -38,7 +38,7 @@ async function Index({ sort }: Props) {
   const uniqueNames = students.map((student) => student.name)
 
   return (
-    <Layout title={import.meta.env.GITHUB_ORG}>
+    <Layout title={process.env.GITHUB_ORG || ''}>
       <div className="flex flex-col gap-10 w-fit items-center justify-center mx-auto">
         <h2 className="self-start text-lg font-medium text-slate-400">
           A list of all students in the cohort
