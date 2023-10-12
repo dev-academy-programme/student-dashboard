@@ -9,6 +9,7 @@ interface Props {
   pivotReposStudents: { [key: string]: { [key: string]: number } }
   pivotDaysStudents: { [key: string]: { [key: string]: number } }
   uniqueNames: string[]
+  direction?: string
 }
 
 function Index({
@@ -16,6 +17,8 @@ function Index({
   studentSummary,
   pivotReposStudents,
   pivotDaysStudents,
+  sort,
+  direction,
 }: Props) {
   return (
     <div className="flex flex-col gap-10 w-fit items-center justify-center mx-auto">
@@ -23,7 +26,7 @@ function Index({
         A list of all students in the cohort
       </h2>
 
-      <ListStudents data={studentSummary} />
+      <ListStudents direction={direction} sort={sort} data={studentSummary} />
       <h2 className="self-start text-lg font-medium text-slate-400">
         Total commits for each student for all challenges
       </h2>

@@ -27,22 +27,52 @@ server.use('/api/commits', commitRoutes)
 
 server.get('/', async (req, res) => {
   const sort = (req.query.sort as string) || 'progress'
+  const direction = (req.query.direction as string) || 'desc'
   const prisma = new PrismaClient()
   const commits = await db.getCommits(prisma)
 
   const students = flip(commits)
 
   const studentSummary = getStudentSummary(students)
-  if (sort === 'progress') {
-    studentSummary.sort((a, b) => b.progressScore - a.progressScore)
-  } else if (sort === 'name') {
-    studentSummary.sort((a, b) => a.name.localeCompare(b.name))
-  } else if (sort === 'commits') {
-    studentSummary.sort((a, b) => a.totalCommits - b.totalCommits)
-  } else if (sort === 'repo') {
-    studentSummary.sort((a, b) => a.lastRepo.localeCompare(b.lastRepo))
-  } else if (sort === 'date') {
-    studentSummary.sort((a, b) => a.lastCommitDate - b.lastCommitDate)
+  switch (sort) {
+    case 'progress':
+      studentSummary.sort((a, b) =>
+        direction === 'asc'
+          ? a.progressScore - b.progressScore
+          : b.progressScore - a.progressScore,
+      )
+      break
+    case 'name':
+      studentSummary.sort((a, b) =>
+        direction === 'asc'
+          ? a.name.localeCompare(b.name)
+          : b.name.localeCompare(a.name),
+      )
+      break
+    case 'commits':
+      studentSummary.sort((a, b) =>
+        direction === 'asc'
+          ? a.totalCommits - b.totalCommits
+          : b.totalCommits - a.totalCommits,
+      )
+      break
+    case 'repo':
+      studentSummary.sort((a, b) =>
+        direction === 'asc'
+          ? a.lastRepo.localeCompare(b.lastRepo)
+          : b.lastRepo.localeCompare(a.lastRepo),
+      )
+
+      break
+    case 'date':
+      studentSummary.sort((a, b) =>
+        direction === 'asc'
+          ? a.lastCommitDate - b.lastCommitDate
+          : b.lastCommitDate - a.lastCommitDate,
+      )
+      break
+    default:
+      throw new Error(`Unknown sort option: ${sort}`)
   }
 
   let pivotReposStudents = createPivotTable(students, 'repo_name')
@@ -54,6 +84,7 @@ server.get('/', async (req, res) => {
       <Layout title="Hello World!">
         <Index
           sort={sort}
+          direction={direction}
           uniqueNames={uniqueNames}
           studentSummary={studentSummary}
           pivotReposStudents={pivotReposStudents}

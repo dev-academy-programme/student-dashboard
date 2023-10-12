@@ -3,9 +3,13 @@ import StudentsSummaryRow from './StudentsSummaryRow.tsx'
 
 interface Props {
   data: StudentSummary[]
+  sort: string
+  direction?: string
 }
 
-function ListStudents({ data }: Props) {
+function ListStudents({ data, direction }: Props) {
+  direction = direction || 'asc'
+  direction = direction === 'asc' ? 'desc' : 'asc'
   return (
     <table className="table-auto border-collapse border border-slate-500">
       <thead>
@@ -16,14 +20,16 @@ function ListStudents({ data }: Props) {
             </a>
           </th>
           <th className="p-4">
-            <a href="/?sort=name">Student</a>
+            <a href={`/?sort=name&direction=${direction}`}>Student</a>
           </th>
           <th className="p-4">
-            <a href="/?sort=commits"># Commits</a>
+            <a href={`/?sort=commits&direction=${direction}`}># Commits</a>
           </th>
           <th className="p-4">
             <p>
-              <a href="/?sort=progress">Progress Score</a>
+              <a href={`/?sort=progress&direction=${direction}`}>
+                Progress Score
+              </a>
               <br />
               <span className="text-xs text-gray-500">
                 (# commits / Std of commits)
