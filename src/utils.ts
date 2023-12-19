@@ -1,9 +1,9 @@
 import type { getCommits } from '../prisma/db'
-import type { StudentData } from './routes/+page.server'
+import type { StudentData } from './github'
 
 export function standardDeviation(values: number[]) {
   const avg = average(values)
-  const squareDiffs = values.map(function(value) {
+  const squareDiffs = values.map(function (value) {
     const diff = value - avg
     const sqrDiff = diff * diff
     return sqrDiff
@@ -60,7 +60,7 @@ export function flip(commits: Awaited<ReturnType<typeof getCommits>>) {
         username: studentUsername,
         branch: commit.branch,
         created_on: commit.created_on,
-        repo_name: commit.repo_name
+        repo_name: commit.repo_name,
       })
     } else {
       studentMap.set(studentUsername, {
@@ -72,9 +72,9 @@ export function flip(commits: Awaited<ReturnType<typeof getCommits>>) {
             username: studentUsername,
             branch: commit.branch,
             created_on: commit.created_on,
-            repo_name: commit.repo_name
-          }
-        ]
+            repo_name: commit.repo_name,
+          },
+        ],
       })
     }
   })

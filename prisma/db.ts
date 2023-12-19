@@ -28,7 +28,7 @@ function getFakeData(): Commit[] {
     'Challenge 12',
     'Challenge 13',
     'Challenge 14',
-    'Challenge 15'
+    'Challenge 15',
   ]
 
   const students = []
@@ -38,7 +38,7 @@ function getFakeData(): Commit[] {
     students.push({
       name: faker.person.firstName(),
       username: faker.internet.userName(),
-      github_id: Math.floor(Math.random() * 1000000)
+      github_id: Math.floor(Math.random() * 1000000),
     })
   }
 
@@ -62,8 +62,8 @@ function getFakeData(): Commit[] {
         Student: {
           name: student.name,
           username: student.username,
-          github_id: student.github_id
-        }
+          github_id: student.github_id,
+        },
       })
     }
   })
@@ -82,18 +82,18 @@ export async function getCommits(prisma: PrismaClient) {
         select: {
           name: true,
           username: true,
-          github_id: true
-        }
-      }
+          github_id: true,
+        },
+      },
     },
     where: {
       Student: {
-        is_student: true
-      }
+        is_student: true,
+      },
     },
     orderBy: {
-      created_on: 'desc'
-    }
+      created_on: 'desc',
+    },
   })
 
   return commits
