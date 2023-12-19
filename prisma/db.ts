@@ -72,9 +72,6 @@ function getFakeData(): Commit[] {
 }
 
 export async function getCommits(prisma: PrismaClient) {
-  // if (process.env.NODE_ENV === 'development') {
-  //   return getFakeData()
-  // }
   const commits = await prisma.commit.findMany({
     select: {
       username: true,

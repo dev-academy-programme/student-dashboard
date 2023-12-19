@@ -8,6 +8,11 @@ async function main() {
   }
 
   const members = await fetchMembers(org)
+  console.log(`👥 ${members.length} members found`)
+
+  await deleteAll()
+  console.log(`🗑  Deleted all data`)
+
   for (const { login, databaseId, email } of members) {
     const username = login
     const github_id = databaseId
@@ -69,12 +74,18 @@ async function fetchMembers(org: string) {
   })
 
   const data = (await response.json()) as Member
+  console.log(data)
+
   const members = data.data.organization.membersWithRole.edges
-    .filter((edge) => edge.role === 'MEMBER')
+    // .filter((edge) => edge.role === 'MEMBER')
     .map((edge) => edge.node)
-  console.log(members)
 
   return members
+}
+
+async function deleteAll() {
+  await prisma.commit.deleteMany({})
+  await prisma.student.deleteMany({})
 }
 
 main()

@@ -20,10 +20,11 @@ const schema = z.object({
       timestamp: z.string(),
       author: z.object({
         name: z.string(),
-        username: z.string(),
-      }),
-    }),
-  ),
+        username: z.string().optional(),
+        email: z.string()
+      })
+    })
+  )
 })
 
 router.post('/', async (req, res) => {
@@ -63,14 +64,14 @@ router.post('/', async (req, res) => {
           id: commit.id,
         },
         update: {
-          username: commit.author.username,
+          username: commit.author.username || commit.author.email,
           created_on: commit.timestamp,
           repo_name: payload.repository.name,
           branch: payload.ref,
           id: commit.id,
         },
         create: {
-          username: commit.author.username,
+          username: commit.author.username || commit.author.email,
           created_on: commit.timestamp,
           repo_name: payload.repository.name,
           branch: payload.ref,

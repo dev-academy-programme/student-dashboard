@@ -15,7 +15,8 @@
     "build:css": "tailwind -i ./src/styles/input.css -o ./public/output.css",
     "lint": "prettier --plugin-search-dir . --check . && eslint .",
     "delete": "ts-node src/script.ts",
-    "format": "prettier --plugin-search-dir . --write ."
+    "format": "prettier --plugin-search-dir . --write .",
+    "new:cohort": "ts-node --esm src/script.ts"
   },
   "devDependencies": {
     "@faker-js/faker": "^8.0.2",
