@@ -16,4 +16,3 @@ RUN  --mount=type=cache,id=pnpm,target=/pnpm/store pnpm install --frozen-lockfil
 # ENV NODE_ENV=production
 RUN  --mount=type=cache,id=pnpm,target=/pnpm/store pnpm run build
 CMD [ "pnpm", "run", "dev" ]
-EXPOSE 3000
