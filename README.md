@@ -22,6 +22,14 @@ npm i
 npm run dev
 ```
 
+## Setting up a webhook in the cohorts organisation
+
+- Go to Settings / Webhooks.
+- Add a new webhook.
+- the "Payload URL" should be the deployed app url "https://student-dashboard-akl.devacademy.life/api/commits"
+- Make sure the SSL verification is enabled.
+
+
 ## TODO Tasks
 
 - Use @tanstack/table to add more interactivity (clicking columns to sort)
