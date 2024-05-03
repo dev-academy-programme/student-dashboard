@@ -27,8 +27,16 @@ npm run dev
 - Go to Settings / Webhooks.
 - Add a new webhook.
 - the "Payload URL" should be the deployed app url "https://student-dashboard-akl.devacademy.life/api/commits"
+- the webhook Content-Type should be set to JSON
 - Make sure the SSL verification is enabled.
 
+## Deploying to dokku: 
+- the usual stuff for deploying an app with database, but some extras (cause its a prisma / postgres db instead of sqlite)
+- Set the cohort:
+`dokku config:set GITHUB_ORG=kahikatea-2024`
+and then run the new-cohort script:
+`dokku run npm run new:cohort`
+and then it should all be great
 
 ## TODO Tasks
 
